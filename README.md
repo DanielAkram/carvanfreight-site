@@ -1,12 +1,12 @@
 # Carvanfreight LTD. Website
 
-This is a simple freight company website built using Next.js 14 (App Router) and Tailwind CSS.
+This is a freight company website built using Next.js 14 (App Router) and Tailwind CSS.
 
 ## Features
 
 - Same-day delivery service info
 - Booking form (via Formspree)
-- Easy to deploy on Vercel or Cloudflare Pages
+- Deploy on Cloudflare Pages
 
 ## Setup
 
