@@ -679,6 +679,7 @@ footer p { font-size: 0.8rem; }
       <input type="hidden" name="access_key" value="d22e07f8-8a86-4e4f-bf76-9bfcdb36bd44">
       <input type="hidden" name="subject" value="New Quote Request — Carvan Freight">
       <input type="hidden" name="redirect" value="https://web3forms.com/success">
+      <input type="checkbox" name="botcheck" class="hidden" style="display:none">
       <h3>Send Us a Message</h3>
       <p class="form-sub">Fill in the form below and our team will respond within 24 hours.</p>
       <div class="form-row">
@@ -715,8 +716,10 @@ footer p { font-size: 0.8rem; }
           <textarea name="message" placeholder="Tell us about your shipment – origin, destination, cargo type, timeline..."></textarea>
         </div>
       </div>
+      <div class="h-captcha" data-captcha="true"></div>
       <button type="submit" class="form-submit">Submit Enquiry →</button>
     </form>
+    <script src="https://web3forms.com/client/script.js" async defer></script>
   </div>
 </section>
 
