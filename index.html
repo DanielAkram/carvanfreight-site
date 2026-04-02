@@ -452,6 +452,212 @@ footer p { font-size: 0.8rem; }
   .form-row { grid-template-columns: 1fr; }
   .why-grid { grid-template-columns: 1fr 1fr; }
 }
+/* ── CHATBOT ── */
+.chat-toggle {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--navy);
+  border: 2px solid rgba(212,168,67,0.3);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(11,29,58,0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.chat-toggle:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(11,29,58,0.4);
+}
+.chat-toggle svg { width: 28px; height: 28px; fill: var(--gold); transition: opacity 0.2s; }
+.chat-toggle .chat-close-icon { display: none; }
+.chat-toggle.active .chat-open-icon { display: none; }
+.chat-toggle.active .chat-close-icon { display: block; }
+.chat-toggle-pulse {
+  position: absolute; inset: -4px; border-radius: 50%;
+  border: 2px solid var(--gold);
+  animation: chatPulse 2.5s infinite;
+}
+.chat-toggle.active .chat-toggle-pulse { display: none; }
+
+@keyframes chatPulse {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.15); }
+}
+
+.chat-window {
+  position: fixed; bottom: 6rem; right: 1.5rem; z-index: 998;
+  width: 380px; max-height: 520px;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 12px 48px rgba(11,29,58,0.18);
+  border: 1px solid rgba(0,0,0,0.06);
+  display: none; flex-direction: column;
+  overflow: hidden;
+  animation: chatSlideUp 0.3s ease-out;
+}
+.chat-window.open { display: flex; }
+
+@keyframes chatSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-header {
+  background: var(--navy);
+  padding: 1rem 1.2rem;
+  display: flex; align-items: center; gap: 0.7rem;
+  border-bottom: 1px solid rgba(212,168,67,0.12);
+}
+.chat-header-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #4ADE80;
+  box-shadow: 0 0 6px rgba(74,222,128,0.5);
+  flex-shrink: 0;
+}
+.chat-header-info h4 {
+  font-size: 0.9rem; font-weight: 700; color: var(--white); margin: 0;
+}
+.chat-header-info p {
+  font-size: 0.72rem; color: rgba(255,255,255,0.5); margin: 0;
+}
+
+.chat-messages {
+  flex: 1; overflow-y: auto;
+  padding: 1rem;
+  display: flex; flex-direction: column; gap: 0.7rem;
+  min-height: 300px; max-height: 360px;
+  background: var(--gray-100);
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 4px; }
+
+.chat-msg {
+  max-width: 82%;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  word-wrap: break-word;
+}
+.chat-msg.bot {
+  align-self: flex-start;
+  background: var(--white);
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.04);
+  border-bottom-left-radius: 4px;
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: var(--navy);
+  color: var(--white);
+  border-bottom-right-radius: 4px;
+}
+.chat-msg.bot.typing {
+  color: var(--gray-400);
+  font-style: italic;
+}
+
+.chat-input-area {
+  padding: 0.8rem;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  display: flex; gap: 0.5rem;
+  background: var(--white);
+}
+.chat-input-area input {
+  flex: 1;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.3s;
+  background: var(--white);
+}
+.chat-input-area input:focus { border-color: var(--gold); }
+.chat-input-area button {
+  width: 40px; height: 40px;
+  border-radius: 8px;
+  background: var(--navy);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+.chat-input-area button:hover { background: var(--navy-light); }
+.chat-input-area button:disabled { opacity: 0.5; cursor: not-allowed; }
+.chat-input-area button svg { width: 18px; height: 18px; fill: var(--gold); }
+
+.chat-quick-actions {
+  padding: 0 1rem 0.6rem;
+  display: flex; gap: 0.4rem; flex-wrap: wrap;
+  background: var(--gray-100);
+}
+.chat-quick-btn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 100px;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  font-size: 0.75rem;
+  color: var(--gray-600);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.2s, color 0.2s;
+}
+.chat-quick-btn:hover {
+  border-color: var(--gold);
+  color: var(--navy);
+}
+
+.chat-bubble-tip {
+  position: fixed; bottom: 5.2rem; right: 1.5rem; z-index: 999;
+  background: var(--white);
+  color: var(--navy);
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 24px rgba(11,29,58,0.15);
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex; align-items: center; gap: 0.5rem;
+  animation: tipSlideIn 0.5s ease-out 2s both;
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.06);
+  max-width: 260px;
+}
+.chat-bubble-tip .tip-close {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem;
+  color: var(--gray-400);
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.chat-bubble-tip .tip-close:hover { background: var(--gray-200); }
+.chat-bubble-tip.hidden { display: none; }
+
+@keyframes tipSlideIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 480px) {
+  .chat-window {
+    width: calc(100vw - 1.5rem);
+    right: 0.75rem;
+    bottom: 5.5rem;
+    max-height: 70vh;
+  }
+  .chat-toggle {
+    bottom: 1rem; right: 1rem;
+    width: 52px; height: 52px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -757,6 +963,116 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     document.getElementById('navLinks').classList.remove('open');
   });
 });
+</script>
+
+<!-- CHATBOT -->
+<div class="chat-bubble-tip" id="chatBubbleTip" onclick="closeTip(); toggleChat();">
+  <span>👋 Need help? Chat with our AI assistant!</span>
+  <button class="tip-close" onclick="event.stopPropagation(); closeTip();">✕</button>
+</div>
+
+<button class="chat-toggle" id="chatToggle" onclick="toggleChat()">
+  <div class="chat-toggle-pulse"></div>
+  <svg class="chat-open-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/><path d="M7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+  <svg class="chat-close-icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-header-dot"></div>
+    <div class="chat-header-info">
+      <h4>Carvan Assistant</h4>
+      <p>Freight & logistics support</p>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">Hello! I'm Carvan Freight's virtual assistant. How can I help you today?</div>
+  </div>
+  <div class="chat-quick-actions" id="chatQuickActions">
+    <button class="chat-quick-btn" onclick="sendQuick('What services do you offer?')">Services</button>
+    <button class="chat-quick-btn" onclick="sendQuick('What areas do you cover?')">Coverage</button>
+    <button class="chat-quick-btn" onclick="sendQuick('How can I get a quote?')">Get a Quote</button>
+    <button class="chat-quick-btn" onclick="sendQuick('How do I track my shipment?')">Track Shipment</button>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="chatInput" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendMessage()">
+    <button id="chatSendBtn" onclick="sendMessage()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+// Chatbot logic
+const WORKER_URL = 'https://carvanfreight-ai-assistant.danielakram00.workers.dev';
+
+function toggleChat() {
+  const win = document.getElementById('chatWindow');
+  const btn = document.getElementById('chatToggle');
+  win.classList.toggle('open');
+  btn.classList.toggle('active');
+  closeTip();
+}
+
+function closeTip() {
+  document.getElementById('chatBubbleTip').classList.add('hidden');
+}
+
+// Auto-hide tooltip after 10 seconds
+setTimeout(() => { closeTip(); }, 12000);
+
+function addMessage(text, sender) {
+  const container = document.getElementById('chatMessages');
+  const msg = document.createElement('div');
+  msg.className = 'chat-msg ' + sender;
+  msg.textContent = text;
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+  return msg;
+}
+
+function sendQuick(text) {
+  document.getElementById('chatQuickActions').style.display = 'none';
+  sendMessage(text);
+}
+
+async function sendMessage(quickText) {
+  const input = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('chatSendBtn');
+  const text = quickText || input.value.trim();
+  if (!text) return;
+
+  addMessage(text, 'user');
+  input.value = '';
+  sendBtn.disabled = true;
+
+  const typing = addMessage('Thinking...', 'bot typing');
+
+  if (!WORKER_URL) {
+    // Demo mode — no backend connected yet
+    setTimeout(() => {
+      typing.remove();
+      addMessage("Thanks for your message! Our Cloudflare Worker backend isn't connected yet. Once it's set up, I'll be able to answer your freight and logistics questions in real time.", 'bot');
+      sendBtn.disabled = false;
+    }, 1000);
+    return;
+  }
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text })
+    });
+    const data = await res.json();
+    typing.remove();
+    addMessage(data.reply || 'Sorry, something went wrong. Please try again.', 'bot');
+  } catch (err) {
+    typing.remove();
+    addMessage('Sorry, I\'m having trouble connecting. Please try again or contact us at operations@carvanfreight.com.', 'bot');
+  }
+  sendBtn.disabled = false;
+}
 </script>
 
 </body>
