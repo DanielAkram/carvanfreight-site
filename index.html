@@ -675,7 +675,7 @@ footer p { font-size: 0.8rem; }
 
 <!-- NAV -->
 <nav>
-  <div class="logo">Carvanfreight</span></div>
+  <div class="logo">Carvan<span>Freight</span></div>
   <ul class="nav-links" id="navLinks">
     <li><a href="#home">Home</a></li>
     <li><a href="#about">About</a></li>
@@ -894,7 +894,7 @@ footer p { font-size: 0.8rem; }
     </div>
     <form class="contact-form reveal" action="https://api.web3forms.com/submit" method="POST">
       <input type="hidden" name="access_key" value="d22e07f8-8a86-4e4f-bf76-9bfcdb36bd44">
-      <input type="hidden" name="subject" value="New Quote Request — Carvanfreight">
+      <input type="hidden" name="subject" value="New Quote Request — Carvan Freight">
       <input type="hidden" name="redirect" value="https://web3forms.com/success">
       <input type="checkbox" name="botcheck" class="hidden" style="display:none">
       <h3>Send Us a Message</h3>
@@ -944,8 +944,8 @@ footer p { font-size: 0.8rem; }
 <footer>
   <div class="footer-inner">
     <div>
-      <div class="footer-logo">Carvanfreight</span></div>
-      <p style="margin-top:0.4rem;">© 2026 Carvanfreight LLC. All rights reserved.</p>
+      <div class="footer-logo">Carvan<span>Freight</span></div>
+      <p style="margin-top:0.4rem;">© 2026 Carvanfreight LTD. All rights reserved.</p>
     </div>
     <ul class="footer-links">
       <li><a href="#home">Home</a></li>
@@ -992,12 +992,12 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   <div class="chat-header">
     <div class="chat-header-dot"></div>
     <div class="chat-header-info">
-      <h4>Carvanfreight virtual Assistant</h4>
+      <h4>Carvan Assistant</h4>
       <p>Freight & logistics support</p>
     </div>
   </div>
   <div class="chat-messages" id="chatMessages">
-    <div class="chat-msg bot">Hello! I'm Carvanfreight's virtual assistant. How can I help you today?</div>
+    <div class="chat-msg bot">Hello! I'm Carvan Freight's virtual assistant. How can I help you today?</div>
   </div>
   <div class="chat-quick-actions" id="chatQuickActions">
     <button class="chat-quick-btn" onclick="sendQuick('What services do you offer?')">Services</button>
@@ -1051,10 +1051,11 @@ async function sendMessage(quickText) {
   const input = document.getElementById('chatInput');
   const sendBtn = document.getElementById('chatSendBtn');
   const text = quickText || input.value.trim();
-  if (!text) return;
+  if (!text || sendBtn.disabled) return;
 
   addMessage(text, 'user');
   input.value = '';
+  input.disabled = true;
   sendBtn.disabled = true;
 
   const typing = document.createElement('div');
@@ -1074,19 +1075,29 @@ async function sendMessage(quickText) {
   }
 
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
     const res = await fetch(WORKER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text })
+      body: JSON.stringify({ message: text }),
+      signal: controller.signal
     });
+    clearTimeout(timeout);
     const data = await res.json();
     typing.remove();
     addMessage(data.reply || 'Sorry, something went wrong. Please try again.', 'bot');
   } catch (err) {
     typing.remove();
-    addMessage('Sorry, I\'m having trouble connecting. Please try again or contact us at operations@carvanfreight.com.', 'bot');
+    if (err.name === 'AbortError') {
+      addMessage('Response is taking too long. Please try again.', 'bot');
+    } else {
+      addMessage('Sorry, I\'m having trouble connecting. Please try again or contact us at operations@carvanfreight.com.', 'bot');
+    }
   }
   sendBtn.disabled = false;
+  input.disabled = false;
+  input.focus();
 }
 </script>
 
