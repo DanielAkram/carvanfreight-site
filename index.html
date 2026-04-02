@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carvan Freight LLC – Reliable UK Freight & Logistics</title>
+<title>Carvanfreight LTD – Reliable UK Freight & Logistics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -552,8 +552,19 @@ footer p { font-size: 0.8rem; }
   border-bottom-right-radius: 4px;
 }
 .chat-msg.bot.typing {
-  color: var(--gray-400);
-  font-style: italic;
+  display: flex; align-items: center; gap: 4px;
+  padding: 1rem 1.2rem;
+}
+.typing-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--gray-400);
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-6px); opacity: 1; }
 }
 
 .chat-input-area {
@@ -664,7 +675,7 @@ footer p { font-size: 0.8rem; }
 
 <!-- NAV -->
 <nav>
-  <div class="logo">Carvan<span>Freight</span></div>
+  <div class="logo">Carvanfreight</span></div>
   <ul class="nav-links" id="navLinks">
     <li><a href="#home">Home</a></li>
     <li><a href="#about">About</a></li>
@@ -684,7 +695,7 @@ footer p { font-size: 0.8rem; }
   <div class="hero-content">
     <div class="hero-tag">UK-Based Freight & Logistics</div>
     <h1>Moving Your Freight<br>Across the <em>United Kingdom</em> & Beyond</h1>
-    <p>Carvan Freight LLC delivers reliable, efficient freight and logistics solutions. From local haulage to international shipping, we keep your supply chain moving.</p>
+    <p>Carvanfreight LTD delivers reliable, efficient freight and logistics solutions. From local haulage to international shipping, we keep your supply chain moving.</p>
     <div class="hero-buttons">
       <a href="#contact" class="btn-primary">Request a Quote</a>
       <a href="#services" class="btn-outline">Our Services</a>
@@ -712,7 +723,7 @@ footer p { font-size: 0.8rem; }
     <div>
       <div class="section-tag reveal">About Us</div>
       <h2 class="section-title reveal">Trusted Freight Partner Based in the United Kingdom</h2>
-      <p class="section-subtitle reveal">Carvan Freight LLC is a UK-registered freight and logistics company dedicated to providing dependable transportation solutions for businesses of all sizes.</p>
+      <p class="section-subtitle reveal">Carvanfreight LTD is a UK-registered freight and logistics company dedicated to providing dependable transportation solutions for businesses of all sizes.</p>
       <div class="about-features">
         <div class="about-feature reveal">
           <div class="feat-icon">🛡️</div>
@@ -883,7 +894,7 @@ footer p { font-size: 0.8rem; }
     </div>
     <form class="contact-form reveal" action="https://api.web3forms.com/submit" method="POST">
       <input type="hidden" name="access_key" value="d22e07f8-8a86-4e4f-bf76-9bfcdb36bd44">
-      <input type="hidden" name="subject" value="New Quote Request — Carvan Freight">
+      <input type="hidden" name="subject" value="New Quote Request — Carvanfreight">
       <input type="hidden" name="redirect" value="https://web3forms.com/success">
       <input type="checkbox" name="botcheck" class="hidden" style="display:none">
       <h3>Send Us a Message</h3>
@@ -933,8 +944,8 @@ footer p { font-size: 0.8rem; }
 <footer>
   <div class="footer-inner">
     <div>
-      <div class="footer-logo">Carvan<span>Freight</span></div>
-      <p style="margin-top:0.4rem;">© 2026 Carvan Freight LLC. All rights reserved.</p>
+      <div class="footer-logo">Carvanfreight</span></div>
+      <p style="margin-top:0.4rem;">© 2026 Carvanfreight LLC. All rights reserved.</p>
     </div>
     <ul class="footer-links">
       <li><a href="#home">Home</a></li>
@@ -981,12 +992,12 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   <div class="chat-header">
     <div class="chat-header-dot"></div>
     <div class="chat-header-info">
-      <h4>Carvan Assistant</h4>
+      <h4>Carvanfreight virtual Assistant</h4>
       <p>Freight & logistics support</p>
     </div>
   </div>
   <div class="chat-messages" id="chatMessages">
-    <div class="chat-msg bot">Hello! I'm Carvan Freight's virtual assistant. How can I help you today?</div>
+    <div class="chat-msg bot">Hello! I'm Carvanfreight's virtual assistant. How can I help you today?</div>
   </div>
   <div class="chat-quick-actions" id="chatQuickActions">
     <button class="chat-quick-btn" onclick="sendQuick('What services do you offer?')">Services</button>
@@ -1046,7 +1057,11 @@ async function sendMessage(quickText) {
   input.value = '';
   sendBtn.disabled = true;
 
-  const typing = addMessage('Thinking...', 'bot typing');
+  const typing = document.createElement('div');
+  typing.className = 'chat-msg bot typing';
+  typing.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+  document.getElementById('chatMessages').appendChild(typing);
+  document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
 
   if (!WORKER_URL) {
     // Demo mode — no backend connected yet
